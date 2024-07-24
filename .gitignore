@@ -88,3 +88,5 @@ Thumbs.db
 # Cache directories
 .cache/
 .pytest_cache/
+
+dump.txt
