@@ -39,3 +39,14 @@ def get_company(company_id: int):
     if company.empty:
         raise HTTPException(status_code=404, detail="Company not found")
     return company.to_dict(orient="records")[0]
+
+@app.get("/api/companies/{company_id}/location")
+def get_companylocation(company_id: int):
+    # companies_details = companies_data()
+    locations_details = locations_data()
+    # Filter locations by company_id
+    locations = locations_details[locations_details['company_id'] == company_id]
+    # company = companies_details[companies_details['company_id'] == company_id]
+    if locations.empty:
+        raise HTTPException(status_code=404, detail="Location not found")
+    return locations.to_dict(orient="records")
