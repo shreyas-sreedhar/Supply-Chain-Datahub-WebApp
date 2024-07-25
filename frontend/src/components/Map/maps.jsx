@@ -1,25 +1,46 @@
-// components/Map.js
-import React, { useEffect } from 'react';
-import L from 'leaflet';
+/*Since the map was loaded on client side, 
+we need to make this component client rendered as well*/
+'use client'
 
-const Map = ({ locations }) => {
-    useEffect(() => {
-        const map = L.map('map').setView([locations[0].latitude, locations[0].longitude], 13);
+//Map component Component from library
+import { GoogleMap } from "@react-google-maps/api";
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        locations.forEach(location => {
-            L.marker([location.latitude, location.longitude])
-                .addTo(map)
-                .bindPopup(`<b>${location.name}</b><br>${location.address}`);
-        });
-
-        return () => map.remove();
-    }, [locations]);
-
-    return <div id="map" style={{ height: '400px', width: '100%' }} />;
+//Map's styling
+const defaultMapContainerStyle = {
+    width: '100%',
+    height: '100vh',
+    borderRadius: '15px 0px 0px 15px',
 };
 
-export default Map;
+//K2's coordinates
+const defaultMapCenter = {
+    lat: 35.8799866,
+    lng: 76.5048004
+}
+
+//Default zoom level, can be adjusted
+const defaultMapZoom = 18
+
+//Map options
+const defaultMapOptions = {
+    zoomControl: true,
+    tilt: 0,
+    gestureHandling: 'auto',
+    mapTypeId: 'satellite',
+};
+
+const MapComponent = () => {
+    return (
+        <div className="w-full">
+            <GoogleMap
+                mapContainerStyle={defaultMapContainerStyle}
+                center={defaultMapCenter}
+                zoom={defaultMapZoom}
+                options={defaultMapOptions}
+            >
+            </GoogleMap>
+        </div>
+    )
+};
+
+export { MapComponent };

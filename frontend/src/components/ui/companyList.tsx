@@ -51,16 +51,14 @@ const CompanyList = () => {
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
-        <div>
-          <h2 className="text-2xl font-semibold leading-tight">Companies</h2>
-        </div>
+
         <div className="my-4">
           <input
             type="text"
             placeholder="Search by name"
             value={search}
             onChange={handleSearch}
-            className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+            className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 text-slate-900"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-10">
