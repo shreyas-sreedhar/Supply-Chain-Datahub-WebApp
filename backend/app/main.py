@@ -2,8 +2,12 @@ from typing import Union
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from .config import settings
+from .utils import load_data, setup_logger
+from .models import Company, Location
 
 app = FastAPI()
+logger = setup_logger()
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,26 +20,29 @@ app.add_middleware(
 
 #todo-Changemiddlewearlater
 
-def companies_data():
-    return pd.read_csv("../data/companies.csv")
+# def companies_data():
+#     return pd.read_csv("../data/companies.csv")
 
-def locations_data():
-    return pd.read_csv("../data/locations.csv")
+# def locations_data():
+#     return pd.read_csv("../data/locations.csv")
+
+companies_data = load_data(settings.COMPANIES_URL)
+locations_data = load_data(settings.LOCATIONS_URL)
 
 
-companies_details = companies_data()
-location_details = locations_data()
-
+# companies_details = companies_data()
+# location_details = locations_data()
+#Todo remvoe later
 print("company details")
-print(companies_details.head())  
+print(companies_data.head())  
 print("location details")
-print(location_details.head())  
+print(locations_data.head())  
 
 
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"message": "Welcome to the Supply Chain Hub Assignment"}
 
 @app.get("/api/companies")
 def get_all_companies():
@@ -60,3 +67,9 @@ def get_companylocation(company_id: int):
     if locations.empty:
         raise HTTPException(status_code=404, detail="Location not found")
     return locations.to_dict(orient="records")
+
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
