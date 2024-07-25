@@ -1,46 +1,53 @@
-/*Since the map was loaded on client side, 
-we need to make this component client rendered as well*/
-'use client'
+import React, { useState, useCallback } from 'react';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
-//Map component Component from library
-import { GoogleMap } from "@react-google-maps/api";
-
-//Map's styling
-const defaultMapContainerStyle = {
-    width: '100%',
-    height: '100vh',
-    borderRadius: '15px 0px 0px 15px',
+const containerStyle = {
+  width: '400px',
+  height: '400px'
 };
 
-//K2's coordinates
-const defaultMapCenter = {
-    lat: 35.8799866,
-    lng: 76.5048004
+function MapComponent({ location }) {
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    libraries: ['marker'],
+  });
+
+  const [map, setMap] = useState(null);
+  const onLoad = useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    bounds.extend(new window.google.maps.LatLng(location.lat, location.lng));
+    map.fitBounds(bounds);
+
+    const listener = window.google.maps.event.addListener(map, "idle", () => {
+      if (map.getZoom() > 15) map.setZoom(15);
+      window.google.maps.event.removeListener(listener);
+    });
+
+    setMap(map);
+  }, [location]);
+
+  const onUnmount = useCallback(function callback(map) {
+    setMap(null);
+  }, []);
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={{ lat: location.lat, lng: location.lng }}
+      zoom={15}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      {map && (
+        <Marker
+          position={{ lat: location.lat, lng: location.lng }}
+        >
+          <div>Custom Marker Content</div>
+        </Marker>
+      )}
+    </GoogleMap>
+  ) : <></>;
 }
 
-//Default zoom level, can be adjusted
-const defaultMapZoom = 18
-
-//Map options
-const defaultMapOptions = {
-    zoomControl: true,
-    tilt: 0,
-    gestureHandling: 'auto',
-    mapTypeId: 'satellite',
-};
-
-const MapComponent = () => {
-    return (
-        <div className="w-full">
-            <GoogleMap
-                mapContainerStyle={defaultMapContainerStyle}
-                center={defaultMapCenter}
-                zoom={defaultMapZoom}
-                options={defaultMapOptions}
-            >
-            </GoogleMap>
-        </div>
-    )
-};
-
-export { MapComponent };
+export default React.memo(MapComponent);
