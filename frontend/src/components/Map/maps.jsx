@@ -2,8 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
-  width: '400px',
-  height: '400px'
+  width: "w-full",
+  height: "400px"
 };
 
 function MapComponent({ location }) {
@@ -35,7 +35,7 @@ function MapComponent({ location }) {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={{ lat: location.lat, lng: location.lng }}
-      zoom={15}
+      zoom={10}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >

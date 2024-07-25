@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <section className="relative overflow-hidden">
     <div className="relative w-full mx-auto max-w-7xl">
-      <div className="relative flex flex-col w-full p-5 mx-auto lg:px-16 md:flex-row md:items-center md:justify-between md:px-6">
+      <div className="relative flex flex-col w-full p-5 mx-auto lg:px-8 md:flex-row md:items-center md:justify-between md:px-6">
         <div className="flex flex-row items-center justify-between text-sm text-black lg:justify-start">
           <a href="/" className="flex items-center">
             <span className="text-xl md:text-2xl italic font-semibold tracking-tighter">

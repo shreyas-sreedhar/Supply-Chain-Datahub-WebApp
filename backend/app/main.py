@@ -82,7 +82,7 @@ def get_company_locations(company_id: int):
     logger.info(f"Fetching Locations for Company id: {company_id}")
     locations = []
     for location in locations_data:
-        if locations['company_id'] == company_id:
+        if location['company_id'] == company_id:
             locations.append(location)
     if not locations:
         logger.warning(f"Company not found: {company_id}")

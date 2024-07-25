@@ -32,7 +32,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     fetchCompanies();
-  }, [fetchCompanies]);
+  }, []);
 
   const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);

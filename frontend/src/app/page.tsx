@@ -10,7 +10,7 @@ export default function Home() {
      <Navbar/>
 
       <section className="relative flex flex-col items-center justify-center">
-          <div className="relative items-center w-full px-5 pt-12 mx-auto lg:px-16 max-w-7xl md:px-12 lg:pt-24">
+          <div className="relative items-center w-full px-5 pt-12 mx-auto lg:px-8 max-w-7xl md:px-12">
             <div>
               <p className="mt-8 text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-semibold tracking-tighter text-slate-800">
                 Discover the list of companies and their details.
