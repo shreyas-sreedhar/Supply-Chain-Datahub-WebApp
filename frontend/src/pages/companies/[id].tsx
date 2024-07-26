@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/ui/navBar";
 import MapComponent from "../../components/Map/maps";
-import Map3Dcomponent from "../../components/Map/Map3d"
+import Map3Dcomponent from "../../components/Map/Map3d";
 
 interface Company {
   id: string;
@@ -21,7 +21,9 @@ interface Location {
   latitude: number;
   longitude: number;
 }
-const apikey = process.env.NEXT_PUBLIC_GMKEY; 
+
+const apikey = process.env.NEXT_PUBLIC_GMKEY;
+
 const CompanyDetails: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -31,51 +33,56 @@ const CompanyDetails: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id) {
-      const companyId = parseInt(id as string, 10);
+    console.log('useEffect triggered with id:', id);
+    const fetchCompanyDetails = async (companyId: string) => {
       setIsLoading(true);
       setError(null);
 
-      Promise.all([
-        axios.get<Company>(`http://localhost:8000/api/companies/${companyId}`),
-        axios.get<Location[]>(
-          `http://localhost:8000/api/companies/${companyId}/location`
-        ),
-      ])
-        .then(([companyRes, locationsRes]) => {
-          setCompany(companyRes.data);
-          setLocations(locationsRes.data);
-        })
-        .catch((error) => {
-          console.error(error);
-          setError("Failed to load data. Please try again.");
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      try {
+        const [companyRes, locationsRes] = await Promise.all([
+          axios.get<Company>(`http://localhost:8000/api/companies/${companyId}`),
+          axios.get<Location[]>(`http://localhost:8000/api/companies/${companyId}/location`),
+        ]);
+        setCompany(companyRes.data);
+        setLocations(locationsRes.data);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to load data. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchCompanyDetails(id as string);
     }
   }, [id]);
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         Loading...
       </div>
     );
-  if (error)
+  }
+
+  if (error) {
     return (
       <div className="flex justify-center items-center h-screen text-red-500">
         {error}
       </div>
     );
-  if (!company)
+  }
+
+  if (!company) {
     return (
       <div className="flex justify-center items-center h-screen">
         Company not found
       </div>
     );
+  }
 
-  // Default center of the map (you can adjust these values)
+  // Default center of the map
   const defaultCenterLat = locations.length > 0 ? locations[0].latitude : 37.7749;
   const defaultCenterLng = locations.length > 0 ? locations[0].longitude : -122.4194;
 
@@ -87,7 +94,7 @@ const CompanyDetails: React.FC = () => {
           onClick={() => router.push("/")}
           className="mb-4 px-4 py-2 bg-[#0000ff] text-white rounded hover:bg-blue-600 transition-colors"
         >
-          &#8592; Go Back
+          &#8592; Back to List
         </button>
         <p className="mt-8 text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-semibold tracking-tighter text-slate-800">
           {company.name}
@@ -96,19 +103,20 @@ const CompanyDetails: React.FC = () => {
           <span className="text-gray-950"> Registered Address: </span> {company.address}
         </p>
 
-        <h2 className="mt-8 text-base sm:text-s md:text-base lg:text-base font-semibold tracking-tighter text-slate-800 mb-8">
-          Office Locations
-        </h2>
+        
         <div>
-        {company && (
-          <Map3Dcomponent
-            apiKey={apikey!}
-            latitude={company.latitude}
-            longitude={company.longitude}
-          />
-        )}
-          
+          {company && (
+            <Map3Dcomponent
+              apiKey={apikey!}
+              latitude={company.latitude}
+              longitude={company.longitude}
+            />
+          )}
         </div>
+        <h2 className="mt-8 text-base sm:text-s md:text-base lg:text-base font-semibold tracking-tighter text-slate-800 mb-8">
+          Other Office Locations: 
+        </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {locations.map((location) => (
             <div
