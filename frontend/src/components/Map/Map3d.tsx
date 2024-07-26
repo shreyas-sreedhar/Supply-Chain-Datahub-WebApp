@@ -17,7 +17,9 @@ interface Map3DComponentProps {
   apiKey: string;
   latitude: number;
   longitude: number;
+
 }
+
 const Map3Dcomponent: React.FC<Map3DComponentProps> = ({
   apiKey,
   latitude,
@@ -25,6 +27,7 @@ const Map3Dcomponent: React.FC<Map3DComponentProps> = ({
 }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<google.maps.Map | null>(null);
+    
 
   useEffect(() => {
     const initMap = async () => {
@@ -156,11 +159,15 @@ const Map3Dcomponent: React.FC<Map3DComponentProps> = ({
     //   const map = new Map(mapDiv, mapOptions);
     //   initWebglOverlayView(map);
     // };
+
+    
     initWebglOverlayView(map);
 };
 
     initMap();
   }, [apiKey,latitude,longitude]);
+
+
 
   return (
     <div ref={mapRef} id="map" style={{ width: "100%", height: "400px" }} />
