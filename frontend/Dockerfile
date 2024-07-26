@@ -1,4 +1,5 @@
-FROM node:14-alpine
+# Use Node.js v21.1.0
+FROM node:21.1.0-alpine
 
 WORKDIR /app
 
