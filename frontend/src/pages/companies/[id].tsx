@@ -4,11 +4,15 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/ui/navBar";
 import MapComponent from "../../components/Map/maps";
+import BigMap from "@/components/MapBig/mapsBig";
+import Map3Dcomponent from "../../components/Map3D/Map3d"
 
 interface Company {
   id: string;
   name: string;
   address: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface Location {
@@ -72,6 +76,10 @@ const CompanyDetails: React.FC = () => {
       </div>
     );
 
+  // Default center of the map (you can adjust these values)
+  const defaultCenterLat = locations.length > 0 ? locations[0].latitude : 37.7749;
+  const defaultCenterLng = locations.length > 0 ? locations[0].longitude : -122.4194;
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -83,11 +91,25 @@ const CompanyDetails: React.FC = () => {
           &#8592; Go Back
         </button>
         <p className="mt-8 text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-semibold tracking-tighter text-slate-800">
-                
-             {company.name} </p>
-        <p className=" p-4 text-gray-600  text-s sm:text-xs md:text-xs lg:text-s font-regular tracking-wide mb-8">{company.address}</p>
+          {company.name}
+        </p>
+        <p className="py-4 text-gray-600 text-s sm:text-xs md:text-xs lg:text-s font-regular tracking-wide mb-8">
+          <span className="text-gray-950"> Registered Address: </span> {company.address}
+        </p>
 
-        <h2 className="text-2xl font-semibold mb-4">Locations</h2>
+        <h2 className="mt-8 text-base sm:text-s md:text-base lg:text-base font-semibold tracking-tighter text-slate-800 mb-8">
+          Office Locations
+        </h2>
+        <div>
+        {company && (
+          <Map3Dcomponent
+            apiKey=""
+            latitude={company.latitude}
+            longitude={company.longitude}
+          />
+        )}
+          
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {locations.map((location) => (
             <div
@@ -142,7 +164,6 @@ const CompanyDetails: React.FC = () => {
           ))}
         </div>
       </div>
- 
     </div>
   );
 };

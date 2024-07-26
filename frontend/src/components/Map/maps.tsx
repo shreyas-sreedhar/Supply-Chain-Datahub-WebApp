@@ -1,33 +1,41 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
-const containerStyle = {
+interface Props {
+  location: {
+    lat: number;
+    lng: number;
+  };
+}
+
+const containerStyle: React.CSSProperties = {
   width: "w-full",
   height: "400px"
 };
 
-function MapComponent({ location }) {
+function MapComponent({ location }: Props) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
     libraries: ['marker'],
   });
 
-  const [map, setMap] = useState(null);
-  const onLoad = useCallback(function callback(map) {
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+
+  const onLoad = useCallback((map: google.maps.Map) => {
     const bounds = new window.google.maps.LatLngBounds();
     bounds.extend(new window.google.maps.LatLng(location.lat, location.lng));
     map.fitBounds(bounds);
 
     const listener = window.google.maps.event.addListener(map, "idle", () => {
-      if (map.getZoom() > 15) map.setZoom(15);
+      if (map) map.setZoom(15);
       window.google.maps.event.removeListener(listener);
     });
 
     setMap(map);
   }, [location]);
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback((map: google.maps.Map) => {
     setMap(null);
   }, []);
 
@@ -47,6 +55,8 @@ function MapComponent({ location }) {
         </Marker>
       )}
     </GoogleMap>
+
+
   ) : <></>;
 }
 
