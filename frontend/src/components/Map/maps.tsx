@@ -16,7 +16,7 @@ const containerStyle: React.CSSProperties = {
 function MapComponent({ location }: Props) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GMKEY!,
     libraries: ['marker'],
   });
 

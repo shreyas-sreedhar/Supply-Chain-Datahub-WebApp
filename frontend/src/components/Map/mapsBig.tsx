@@ -19,7 +19,7 @@ const BigMap: React.FC<Props> = ({ locations, centerLat, centerLng }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GMKEY!,
     libraries: ['places'],
   });
 

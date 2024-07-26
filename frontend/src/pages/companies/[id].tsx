@@ -4,8 +4,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/ui/navBar";
 import MapComponent from "../../components/Map/maps";
-import BigMap from "@/components/MapBig/mapsBig";
-import Map3Dcomponent from "../../components/Map3D/Map3d"
+import Map3Dcomponent from "../../components/Map/Map3d"
 
 interface Company {
   id: string;
@@ -22,7 +21,7 @@ interface Location {
   latitude: number;
   longitude: number;
 }
-
+const apikey = process.env.NEXT_PUBLIC_GMKEY; 
 const CompanyDetails: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -103,7 +102,7 @@ const CompanyDetails: React.FC = () => {
         <div>
         {company && (
           <Map3Dcomponent
-            apiKey=""
+            apiKey={apikey!}
             latitude={company.latitude}
             longitude={company.longitude}
           />
