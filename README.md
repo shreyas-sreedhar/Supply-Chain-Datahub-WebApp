@@ -95,7 +95,7 @@ Follow the instructions below to set up and run the project on your local machin
 
 1. **Clone the repository**:
    ```
-   git clone <[github.com/shreyas-sreedhar/SCDH-FSD](https://github.com/shreyas-sreedhar/SCDH-FSD)>
+   git clone https://github.com/shreyas-sreedhar/SCDH-FSD
    cd <SCDH-FSD/backend>
    ```
 
