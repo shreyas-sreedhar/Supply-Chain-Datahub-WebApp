@@ -1,8 +1,7 @@
-// src/app/__tests__/page.test.tsx
+
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Home from '../page';
-// import f from '../../components/'
 
 jest.mock('../../components/ui/companyList', () => {
   return function DummyCompanyList() {

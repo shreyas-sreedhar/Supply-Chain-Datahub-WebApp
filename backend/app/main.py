@@ -7,9 +7,14 @@ from .config import settings
 from .utils import load_data, setup_logger
 from .models import Company, Location
 
+
+# Create an instance of FastAPI
 app = FastAPI()
+
+# Set up logging
 logger = setup_logger()
 
+# Configure CORS (Cross-Origin Resource Sharing) middleware to allow requests from the specified origin
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"], 
@@ -19,9 +24,9 @@ app.add_middleware(
     
 )
 
-#todo-Changemiddlewearlater
-# Global error handler
 
+
+# Global error handler for uncaught exceptions
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
@@ -73,16 +78,21 @@ except Exception as e:
     logger.critical(f"Failed to load initial data: {str(e)}", exc_info=True)
     raise
 
+
+# Route to return a welcome message
 @app.get("/")
 async def read_root():
     logger.info("Root point visited")
     return {"message": "Welcome to the Supply Chain Hub Assignment"}
 
+# Route to check the health of the API
 @app.get("/health")
 def health_check():
     logger.info("Health check endpoint visited")
     return {"status": "API Healthy"}
 
+
+# Route to get all companies
 @app.get("/api/companies", response_model=list[Company])
 def get_all_companies():
     logger.info("Fetching all companies")
@@ -91,7 +101,9 @@ def get_all_companies():
     except Exception as e:
         logger.error(f"Error fetching all companies: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail="Internal server error")
+    
 
+# Route to get a specific company by its ID
 @app.get("/api/companies/{company_id}", response_model=Company)
 def get_company(company_id: int):
     logger.info(f"Fetching company with id: {company_id}")
@@ -107,6 +119,8 @@ def get_company(company_id: int):
         logger.error(f"Error fetching company {company_id}: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
+# Route to get locations for a specific company by its ID
 @app.get("/api/companies/{company_id}/location", response_model=list[Location])
 def get_company_locations(company_id: int):
     logger.info(f"Fetching Locations for Company id: {company_id}")
