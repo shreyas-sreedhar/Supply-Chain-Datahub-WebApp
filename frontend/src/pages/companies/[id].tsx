@@ -69,7 +69,7 @@ const CompanyDetails: React.FC = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen text-red-500">
-        {error}
+        {error+"error"}
       </div>
     );
   }
