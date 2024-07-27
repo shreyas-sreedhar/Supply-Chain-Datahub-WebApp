@@ -83,18 +83,18 @@ Follow the instructions below to set up and run the project on your local machin
 To containerize the application using Docker, follow these steps:
 
 1. **Build the Docker image**:
-   ```
-   docker build .
-   ```
+   ```bash
+   docker build
+    ```
 
 2. **Run the Docker container**:
-   ```
+   ```bash
    docker run 
    ```
 
    and 
 
-    ```
+    ```bash
    docker-compose build
    ```
 
@@ -102,7 +102,7 @@ To containerize the application using Docker, follow these steps:
 
 The application uses environment variables for configuration. Create a `.env` file in the root of the `frontend` directory and add your variables there.
 
-Example: ```NEXT_PUBLIC_GMKEY="sdfdsfdsf"```
+Example: ```NEXT_PUBLIC_GMKEY="helloimunderthewater"```
 
 
 ## Testing
@@ -120,6 +120,7 @@ This will run tests in watch mode, automatically re-running them when files chan
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React.js Documentation](https://reactjs.org/docs/getting-started.html)
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [Google Maps Documentation](https://developers.google.com/maps/documentation)
 
 ## Thank you. 
 
