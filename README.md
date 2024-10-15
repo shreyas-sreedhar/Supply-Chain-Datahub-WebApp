@@ -2,7 +2,7 @@
 
 ## Introduction
 
-### Supply Chain Hub Company Listing Application
+### Supply Chain Hub Company Listing 
 
 This project is a full-stack application that displays company information and their locations. It uses FastAPI for the backend, Next.js + TailwindCSS for the frontend, SwaggerUI for documentation, Pytest and Jest for Testing, and is containerized using Docker.
 
