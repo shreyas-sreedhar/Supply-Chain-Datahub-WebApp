@@ -1,4 +1,4 @@
-# Supply Chain Datahub - Webapplication 
+# Supply Chain Datahub - Interactive Dashboard 
 
 ## Introduction
 
